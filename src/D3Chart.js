@@ -6,7 +6,6 @@ const WIDTH = 800 - MARGIN.LEFT - MARGIN.RIGHT;
 const url = 'https://udemy-react-d3.firebaseio.com/tallest_men.json';
 export default class D3Chart {
     constructor(element, ins) {
-        console.log('initialized', ins);
         if(D3Chart[ins] instanceof D3Chart){
             return D3Chart[ins];
         };
