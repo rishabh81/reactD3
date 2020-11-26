@@ -21,7 +21,7 @@ export default class LineChart {
             .attr('y', 10)
             .text(data.vector)
             .attr('style', 'font-family: roboto')
-            // .attr('style', 'font-size: 20px')
+            .attr('style', 'font-wieght: 700')
 
         this.svg
             .append('rect')
@@ -92,6 +92,7 @@ export default class LineChart {
             .attr('y', 10)
             .text(data.points)
             .attr('style', 'font-family: roboto')
+            .attr('style', 'font-wieght: 700');
         
         Object.freeze(this);
         LineChart[ins] = this;
