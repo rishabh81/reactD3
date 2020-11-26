@@ -1,15 +1,15 @@
 import React, {useEffect, useRef} from 'react';
 // import D3Chart from './D3Chart';
 import Pie from './Pie';
-import LineChart from './LineChart';
+import Levelchart from './LevelChart';
 import './styles/style.css';
 
 
-export default ({configs})=> {
+export default ({configs, name})=> {
     let chart = useRef(null);
     let checkChart;
     useEffect(()=>{
-        checkChart = new LineChart(chart, 'LineChart1', configs);
+        checkChart = new Levelchart(chart, name, configs);
     });
     return (
         <>

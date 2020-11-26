@@ -27,7 +27,7 @@ export default class D3Chart {
             .attr('x', - HEIGHT/2)
             .attr('text-anchor', 'middle')
             .text('Height in cm')
-            .attr('transform', `rotate(-90)`)
+            .attr('transform', `rotate(-90)`);
         
         this.xAxisGroup = this.svg.append('g')
         .attr('transform', `translate(0, ${HEIGHT})`)
@@ -54,7 +54,7 @@ export default class D3Chart {
 		const x = d3.scaleBand()
 			.domain(data.map(d => d.name))
 			.range([0, WIDTH])
-			.padding(0.4)
+            .padding(0.4)
 
 		const xAxisCall = d3.axisBottom(x)
 		vis.xAxisGroup.transition().duration(500).call(xAxisCall)
@@ -63,11 +63,20 @@ export default class D3Chart {
 		vis.yAxisGroup.transition().duration(500).call(yAxisCall)
 
 		// DATA JOIN
-		const rects = vis.svg.selectAll("rect")
-			.data(data)
+		const rects = vis.svg.selectAll("rect.abc")
+            .data(data);
+            
+        const backReact = vis.svg.selectAll("rect.xyz")
+        .data(data);
 
 		// EXIT
         rects.exit()
+        .transition().duration(500)
+        .attr("height", d => 0)
+		.attr("y", d => HEIGHT)
+        .remove()
+
+        backReact.exit()
         .transition().duration(500)
         .attr("height", d => 0)
 		.attr("y", d => HEIGHT)
@@ -78,16 +87,37 @@ export default class D3Chart {
 			.attr("x", d => x(d.name))
 			.attr("y", d => y(d.height))
 			.attr("width", x.bandwidth)
-			.attr("height", d => HEIGHT - y(d.height))
+            .attr("height", d => HEIGHT - y(d.height))
+            
+        backReact.transition().duration(500)
+        .attr("x", d => x(d.name))
+        .attr("width", x.bandwidth)
+        .attr("fill", "red")
+        .attr("fill-opacity", "0.4")
+        .attr("height", d =>  y(d.height))
+        .attr("y", 0);
 
 		// ENTER
 		rects.enter().append("rect")
 			.attr("x", d => x(d.name))
+			.attr("class", 'abc')
 			.attr("width", x.bandwidth)
             .attr("fill", "grey")
             .attr('y', HEIGHT)
             .transition().duration(500)
                 .attr("height", d => HEIGHT - y(d.height))
-                .attr("y", d => y(d.height))
+                .attr("y", d => y(d.height));
+                
+        backReact.enter().append("rect")
+			.attr("x", d => x(d.name))
+			.attr("width", x.bandwidth)
+			.attr("class", 'xyz')
+            .attr("fill", "red")
+            .attr("fill-opacity", "0.4")
+            .attr('y', HEIGHT)
+            .transition().duration(500)
+                .attr("height", d =>  y(d.height))
+                .attr("y", 0);
+            
         }
 }
